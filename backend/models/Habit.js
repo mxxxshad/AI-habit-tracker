@@ -35,7 +35,7 @@ const habitSchema = new mongoose.Schema (
         targetDays:{type:Number,default:7,min:1,max:7},
         color:{type:String,default:"#6366f1"},
         icon:{type:String,default:"🎯"},
-        isArchived:{type:Boolean},
+        isArchived:{type:Boolean , default:false},
         order:{type:Number, default:0},
         
     },

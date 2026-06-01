@@ -6,8 +6,7 @@ export const getHabits = async (req,res) => {
         const { includeArchived } = req.query;
         const filter = { userId: req.user._id};
         if(includeArchived !== "true") 
-            filter.isArchived = { $ne: true };
-
+                        filter.isArchived = false;
       const habits = await Habit.find(filter).sort({ order: 1, createdAt: 1 });
 
         res.json(habits);
@@ -25,6 +24,7 @@ export const createHabit = async (req,res) => {
             category,
             frequency,
             targetDays,
+            
             color,
             icon,
         } = req.body;
@@ -33,15 +33,15 @@ export const createHabit = async (req,res) => {
 
         const count = await Habit.countDocuments({userId: req.user._id});
         const habit = await Habit.create({
-            userId:req.user._id,
-            name ,
+            userId: req.user._id,
+            name,
             description,
             category,
             frequency,
-            targetDays,
+            targetDays,            
             color,
             icon,
-            order:count, 
+            order:count,             
         });
         res.status(201).json(habit);
     } catch(err) {
@@ -51,6 +51,7 @@ export const createHabit = async (req,res) => {
 };
 export const updateHabit = async (req,res) => {
     try {
+        
         const habit = await Habit.findOne ({
             _id: req.params.id,
             userId: req.user._id,
@@ -93,7 +94,7 @@ export const deleteHabit = async (req,res) => {
 };
 export const archiveHabit = async (req,res) => {
     try {
-        const habit = await Habit.findOneAndDelete({
+        const habit = await Habit.findOne({
             _id:req.params.id,
             userId:req.user._id,
         });
